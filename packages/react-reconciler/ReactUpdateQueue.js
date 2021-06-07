@@ -20,9 +20,11 @@ export function initializeUpdateQueue(fiber) {
   fiber.updateQueue = {
     baseState: fiber.memoizedState,
     baseQueue: null,
+    // 要处理新更新的update链表
     shared: {
       pending: null
     },
+    // TODO 存放回调函数 怎么存放的？
     effects: null
   };
 }

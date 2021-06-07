@@ -13,6 +13,7 @@ function shouldConstruct(Component) {
   return !!(prototype && prototype.isReactComponent);
 }
 export class FiberNode {
+  // tag 为3时 也就是root fiber、时 pendingProps为null key为null
   constructor(tag, pendingProps, key) {
     // 1 ClassComponent
     // 3 HostRoot

@@ -5,6 +5,7 @@ const packagesPath = path.resolve(__dirname, 'packages');
 
 module.exports = {
   entry: path.resolve(__dirname, `./demo`),
+  devtool:'source-map',
   output: {
     path: outputPath,
     filename: "bundle.js"

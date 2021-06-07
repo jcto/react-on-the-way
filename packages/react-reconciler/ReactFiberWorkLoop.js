@@ -552,16 +552,20 @@ function  performSyncWorkOnRoot(root) {
   const expirationTime = lastExpiredTime !== NoWork ? lastExpiredTime : Sync;
 
   // 如果有已过期同步任务，先执行他们
+  // 有passive effect标记的fiber
+  // 这种effeclist哪来的？ 在commit阶段完成后 TODO 有些迷糊
   flushPassiveEffects();
 
+  // 重置 workInProgressRoot和workInProgress
   if (root !== workInProgressRoot || expirationTime !== renderExpirationTime) {
     prepareFreshStack(root, expirationTime);
   }
 
+  // 此时为current即rootfiber 
   if (workInProgress) {
     const prevExecutionContext = executionContext;
     executionContext |= RenderContext;
-
+ //  这过程 beginWork 生成fiber树  completeWork 生成dom树
     do {
       workLoopSync();
       break;

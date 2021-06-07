@@ -1,6 +1,6 @@
-import * as DOMRenderer from 'reactReconciler';
-import {FiberNode} from 'reactReconciler/ReactFiber';
-import {createUpdate, initializeUpdateQueue, enqueueUpdate} from 'reactReconciler/ReactUpdateQueue';
+import * as DOMRenderer from './../react-reconciler';
+import {FiberNode} from './../react-reconciler/ReactFiber';
+import {createUpdate, initializeUpdateQueue, enqueueUpdate} from './../react-reconciler/ReactUpdateQueue';
 import { NoPriority } from 'scheduler';
 import { NoWork } from 'reactReconciler/ReactFiberExpirationTime';
 
@@ -17,9 +17,9 @@ export default class ReactRoot {
     this.current.stateNode = this;
     // 应用挂载的根DOM节点
     this.containerInfo = container;
-    // root下已经render完毕的fiber
+    // root下已经render完毕的fiber树
     this.finishedWork = null;
-    // 保存Scheduler保存的当前正在进行的异步任务
+    // 保存Scheduler保存的当前正在进行的异步任务 TODO 不太懂
     this.callbackNode = null;
     // 保存Scheduler保存的当前正在进行的异步任务的优先级
     this.callbackPriority = NoPriority;
@@ -36,13 +36,18 @@ export default class ReactRoot {
     this.finishedExpirationTime = NoWork;
   }
   render(element) {
+    // root fiber 
     const current = this.current;
     const currentTime = DOMRenderer.requestCurrentTimeForUpdate();
     const expirationTime = DOMRenderer.computeExpirationForFiber(currentTime, current);
+    // 空update对象
     const update = createUpdate(expirationTime);
     // fiber.tag为HostRoot类型，payload为对应要渲染的ReactComponents
+    // element 为createElement创建的element树 type props:{key,ref,children}
     update.payload = {element};
+    // 挂在current.updateQueue.share.pending=update
     enqueueUpdate(current, update);
+    // 等待调度更新
     return DOMRenderer.scheduleUpdateOnFiber(current, expirationTime);
   }
 }
