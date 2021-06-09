@@ -9,7 +9,7 @@ import {
   HostRoot,
   HostComponent,
   HostText
-} from 'shared/ReactWorkTags';
+} from './../shared/ReactWorkTags';
 import {cloneUpdateQueue, processUpdateQueue} from './ReactUpdateQueue';
 import {reconcileChildFibers, mountChildFibers, cloneChildFibers} from './ReactChildFiber';
 import {renderWithHooks, bailoutHooks} from './ReactFiberHooks';
